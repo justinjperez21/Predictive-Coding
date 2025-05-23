@@ -40,6 +40,9 @@ class PC_Neuron:
         """
         self.activity += self.update_rate * (-self.prediction_error + np.sum(next_layer_errors * self.weights * self.activations[1](self.activity)))
         self.update_error()
+        
+    def reset_activity(self):
+    	self.activity = np.random.uniform(-1, 1)
 
     def update_weights(self, next_layer_errors):
         """

@@ -44,6 +44,10 @@ class PC_Layer():
         for neuron in self.neurons:
             neuron.update_activity(next_layer_errors) #next_layer_errors[i] is the error from neuron i in the next layer
     
+    def reset_activity(self):
+    	for neuron in self.neurons:
+            neuron.reset_activity()
+    
     def update_weights(self, next_layer_errors):
         """
         Update the weights for each neuron in the layer based on the errors from the next layer.
@@ -65,6 +69,13 @@ class PC_Layer():
         :return: 1d array of errors from each neuron in the layer. Element i is the error of neuron i.
         """
         return np.array([neuron.prediction_error for neuron in self.neurons])
+    
+    def get_energies(self):
+        """
+        Get the energies of the layer by getting the energy of each neuron.
+        :return: 1d array of energies from each neuron in the layer. Element i is the energy of neuron i.
+        """
+        return np.array([neuron.prediction_error**2 for neuron in self.neurons])
     
     def get_activity(self):
         """

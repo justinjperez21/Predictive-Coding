@@ -48,6 +48,10 @@ class PC_Model():
                 continue
             layer.update_activity(self.layers[i+1].get_errors())
     
+    def reset_activity(self):
+    	for layer in self.layers:
+    	    layer.reset_activity()
+    
     def update_weights(self):
         """
         Update the weights for each layer in the model based on the errors from the next layer.
@@ -63,6 +67,13 @@ class PC_Model():
         :return: summed total error of the model.
         """
         return np.sum([np.sum(layer.get_errors()) for layer in self.layers])
+    
+    def get_energy(self):
+        """
+        Get the energies for each layer in the model.
+        :return: summed total enegry of the model.
+        """
+        return np.sum([np.sum(layer.get_energies()) for layer in self.layers])
 
     def clamp_layer(self, layer_index, data=None):
         """
@@ -71,7 +82,7 @@ class PC_Model():
         :param data: Data to set the activity of the clamped layer. If None, the layer will be clamped to its current activity.
         """
         assert isinstance(layer_index, int) and layer_index >= 0 and layer_index < len(self.layers), "Layer index must be a valid index."
-        assert isinstance(data, (np.ndarray, list)) or data is None, "Data must be a numpy array or list."
+        #assert isinstance(data, (np.ndarray, list)) or data is None, "Data must be a numpy array or list."
         assert len(data) == self.layers[layer_index].width if data is not None else True, "Data must have the same length as the layer width."
         self.layers[layer_index].clamped = True
 
@@ -93,7 +104,7 @@ class PC_Model():
         :param activity: 1d array of activity values for each neuron in the layer.
         """
         assert isinstance(layer_index, int) and layer_index >= 0 and layer_index < len(self.layers), "Layer index must be a valid index."
-        assert isinstance(activity, (np.ndarray, list)), "Activity must be a numpy array or list."
+        #assert isinstance(activity, (np.ndarray, list)), "Activity must be a numpy array or list."
         assert len(activity) == len(self.layers[layer_index].neurons), "Activity must have the same length as the layer width."
         self.layers[layer_index].set_activity(activity)
     
